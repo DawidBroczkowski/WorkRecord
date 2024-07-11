@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkRecordGui.CustomTabBar">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TabButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Background" Value="{StaticResource OnError}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Grid HorizontalOptions="Fill" Background="{StaticResource OnError}" VerticalOptions="Start">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="80"/>
+        </Grid.ColumnDefinitions>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+            <Button Text="&#10550;" Clicked="OnGoBackClicked" Style="{StaticResource TabButtonStyle}"/>
+            <Button Text="Employees" Clicked="OnEmployeesClicked" Style="{StaticResource TabButtonStyle}" IsVisible="{Binding Session.IsUserCoordinator}"/>
+            <Button Text="Vacancies" Clicked="OnVacanciesClicked" Style="{StaticResource TabButtonStyle}" IsVisible="{Binding Session.IsUserCoordinator}"/>
+            <Button Text="Leaves" Clicked="OnLeavesClicked" Style="{StaticResource TabButtonStyle}" IsVisible="{Binding Session.IsUserCoordinator}"/>
+            <Button Text="Chart Entries" Clicked="OnChartEntriesClicked" Style="{StaticResource TabButtonStyle}" IsVisible="{Binding Session.IsUserCoordinator}"/>
+            <Button Text="Unfilled Entries" Clicked="OnUnfilledEntriesClicked" Style="{DynamicResource TabButtonStyle}" IsVisible="{Binding Session.IsUserCoordinator}"/>
+            <Button Text="Report" Clicked="OnReportClicked" Style="{DynamicResource TabButtonStyle}" IsVisible="{Binding Session.IsUserManager}"/>
+            <Button Text="My profile" Clicked="OnMyProfileClicked" Style="{DynamicResource TabButtonStyle}" IsVisible="{Binding Session.IsUserEmployee}"/>
+        </StackLayout>
+        <Button Text="Login" Grid.Column="1" Clicked="OnLoginClicked" Style="{StaticResource TabButtonStyle}"/>
+    </Grid>
+    
+</ContentView>

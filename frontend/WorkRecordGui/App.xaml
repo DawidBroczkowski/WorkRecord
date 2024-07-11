@@ -1,0 +1,33 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WorkRecordGui"
+             x:Class="WorkRecordGui.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="Primary">#5198e0</Color>
+            <Color x:Key="OnPrimary">#f1f7fd</Color>
+            <Color x:Key="PrimaryVariant">#4080d4</Color>
+            <Color x:Key="Secondary">#336ac2</Color>
+            <Color x:Key="OnSecondary">#2f569e</Color>
+            <Color x:Key="SecondaryVariant">#2b4a7d</Color>
+            <Color x:Key="Background">#dfeefa</Color>
+            <Color x:Key="OnBackground">#c7e2f6</Color>
+            <Color x:Key="Surface">#a0d0f0</Color>
+            <Color x:Key="OnSurface">#72b5e8</Color>
+            <Color x:Key="Error">#1e2f4d</Color>
+            <Color x:Key="OnError">#1e2f4d</Color>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="Margin" Value="0,5,0,5" />
+                <Setter Property="BackgroundColor" Value="{DynamicResource OnSecondary}" />
+                <Setter Property="TextColor" Value="{DynamicResource OnPrimary}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

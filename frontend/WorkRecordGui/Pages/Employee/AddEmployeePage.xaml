@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WorkRecordGui.Pages.Helpers"
+             xmlns:custom="clr-namespace:WorkRecordGui"
+             x:Class="WorkRecordGui.Pages.AddEmployeePage"
+             Title="AddEmployeePage">
+
+    <local:BasePage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="PlaceholderColor" Value="Gray"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+            <Style x:Key="TitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="40"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="SubTitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="Margin" Value="1,10,0,0"/>
+            </Style>
+            <Style x:Key="BoxViewStyle" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style> 
+        </ResourceDictionary>
+    </local:BasePage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <custom:CustomTabBar Grid.Row="0" Grid.ColumnSpan="3" />
+        <Frame Grid.Row="1" Grid.Column="1" BackgroundColor="{DynamicResource Background}" CornerRadius="10" Padding="10">
+            <StackLayout>
+                <Label Text="First Name:" Style="{DynamicResource LabelStyle}"/>
+                <Entry Placeholder="First Name" Style="{DynamicResource EntryStyle}" Text="{Binding Employee.FirstName}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Label Text="Last Name:" Style="{DynamicResource LabelStyle}"/>
+                <Entry Placeholder="Last Name" Style="{DynamicResource EntryStyle}" Text="{Binding Employee.LastName}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Label Text="Email:" Style="{DynamicResource LabelStyle}"/>
+                <Entry Placeholder="Email" Style="{DynamicResource EntryStyle}" Text="{Binding Employee.Email}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Label Text="Phone Number:" Style="{DynamicResource LabelStyle}"/>
+                <Entry Placeholder="Phone Number" Style="{DynamicResource EntryStyle}" Text="{Binding Employee.PhoneNumber}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Label Text="PESEL:" Style="{DynamicResource LabelStyle}"/>
+                <Entry Placeholder="PESEL" Style="{DynamicResource EntryStyle}" Text="{Binding Employee.PESEL}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Label Text="Position:" Style="{DynamicResource LabelStyle}"/>
+                <Picker ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" BackgroundColor="{DynamicResource OnPrimary}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Label Text="Years worked:" Style="{DynamicResource LabelStyle}"/>
+                <Entry Placeholder="Years worked" Style="{DynamicResource EntryStyle}" Text="{Binding Employee.YearsWorked}"/>
+                <HorizontalStackLayout>
+                    <Label Text="Date of Birth:" Style="{DynamicResource LabelStyle}"/>
+                    <DatePicker Format="dd MMMM yyyy" Style="{DynamicResource EntryStyle}" Margin="0,5,0,0" Date="{Binding Employee.BirthDate}"/>
+                </HorizontalStackLayout>
+                <Button Text="Add" Style="{DynamicResource ButtonStyle}" Command="{Binding AddEmployeeCommand}"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+    
+</local:BasePage>

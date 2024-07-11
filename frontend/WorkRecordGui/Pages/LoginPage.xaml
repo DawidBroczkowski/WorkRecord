@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WorkRecordGui.Pages.Helpers"
+             xmlns:custom="clr-namespace:WorkRecordGui"
+             x:Class="WorkRecordGui.Pages.LoginPage"
+             Title="LoginPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="PlaceholderColor" Value="Gray"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+            <Style x:Key="TitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="40"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="SubTitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="Margin" Value="1,10,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <custom:CustomTabBar Grid.Row="0" Grid.ColumnSpan="3" />
+        
+        <Frame Grid.Row="1" Grid.Column="1" BackgroundColor="{DynamicResource Background}">
+            <VerticalStackLayout Padding="20">
+                <Label Text="Log in" Style="{StaticResource TitleLabelStyle}"/>
+                <Label Text="Please enter your login and password" Style="{StaticResource SubTitleLabelStyle}"/>
+                <BoxView HeightRequest="1" Margin="0,10,0,10"/>
+                <Label Text="Login:" Style="{StaticResource LabelStyle}"/>
+                <Entry Placeholder="Login" Text="{Binding Login}" Style="{StaticResource EntryStyle}"/>
+                <Label Text="Password:" Style="{StaticResource LabelStyle}"/>
+                <Entry Placeholder="Password" Text="{Binding Password}" IsPassword="True" Style="{StaticResource EntryStyle}"/>
+                <Button Text="Log in" Command="{Binding LoginCommand}" Style="{DynamicResource ButtonStyle}" Margin="0,30,0,0"/>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</local:BasePage>

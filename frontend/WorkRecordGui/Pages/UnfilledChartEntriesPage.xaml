@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkRecordGui.Pages.UnfilledChartEntriesPage"
+             xmlns:local="clr-namespace:WorkRecordGui.Pages.Helpers"
+             xmlns:pages="clr-namespace:WorkRecordGui.Pages"
+             xmlns:custom="clr-namespace:WorkRecordGui"
+             Title="UnfilledCharEntriesPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderLabelStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="StartAndExpand"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="Margin" Value="0,0,50,0"/>
+            </Style>
+            <Style x:Key="ItemLabelStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="StartAndExpand"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="0,0,50,0"/>
+            </Style>
+            <Style x:Key="DatePickerLabelStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="0,0,20,0"/>
+            </Style>
+            <Style x:Key="DatePickerStyle" TargetType="DatePicker">
+                <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                <Setter Property="Format" Value="dd/MM/yyyy"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid x:Name="ParentGrid" BackgroundColor="{DynamicResource Background}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="12*" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        <custom:CustomTabBar Grid.Row="0" Grid.ColumnSpan="3" />
+        <Frame Grid.Column="1" Grid.Row="1" BorderColor="{DynamicResource OnSecondary}" CornerRadius="3" BackgroundColor="{DynamicResource White}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="128" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Header Labels -->
+                <Label Text="Id" Style="{StaticResource HeaderLabelStyle}" Grid.Column="0" Grid.Row="0"/>
+                <Label Text="First Name" Style="{StaticResource HeaderLabelStyle}" Grid.Column="1" Grid.Row="0"/>
+                <Label Text="Last Name" Style="{StaticResource HeaderLabelStyle}" Grid.Column="2" Grid.Row="0"/>
+                <Label Text="Position" Style="{StaticResource HeaderLabelStyle}" Grid.Column="3" Grid.Row="0"/>
+                <Label Text="Start Date" Style="{StaticResource HeaderLabelStyle}" Grid.Column="4" Grid.Row="0"/>
+                <Label Text="End Date" Style="{StaticResource HeaderLabelStyle}" Grid.Column="5" Grid.Row="0"/>
+
+                <!-- Employee Rows -->
+                <ListView Grid.Row="1" Grid.ColumnSpan="6" ItemsSource="{Binding FilteredChartEntries}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.EntryTappedCommand, Source={RelativeSource AncestorType={x:Type pages:UnfilledChartEntriesPage}}}" CommandParameter="{Binding .}" />
+                                    </Grid.GestureRecognizers>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="1" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="128" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding Id}" Style="{StaticResource ItemLabelStyle}" Grid.Column="0"/>
+                                        <Label Text="{Binding FirstName}" Style="{StaticResource ItemLabelStyle}" Grid.Column="1"/>
+                                        <Label Text="{Binding LastName}" Style="{StaticResource ItemLabelStyle}" Grid.Column="2"/>
+                                        <Label Text="{Binding Position}" Style="{StaticResource ItemLabelStyle}" Grid.Column="3" />
+                                        <Label Text="{Binding StartDate, StringFormat='{0:dd-MM-yyyy | HH:mm}'}" Style="{StaticResource ItemLabelStyle}" Grid.Column="4"/>
+                                        <Label Text="{Binding EndDate, StringFormat='{0:dd-MM-yyyy | HH:mm}'}" Style="{StaticResource ItemLabelStyle}" Grid.Column="5"/>
+                                    </Grid>
+                                    <BoxView Grid.Row="1" HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Frame>
+        <VerticalStackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="Fill" VerticalOptions="Start" Margin="10,0,10,0">
+            <Entry Placeholder="Search" Text="{Binding SearchText}" BackgroundColor="{DynamicResource OnPrimary}"/>
+            <Button Text="Search" Style="{StaticResource ButtonStyle}"/>
+            <Picker ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" BackgroundColor="{DynamicResource OnPrimary}"/>
+            <BoxView HeightRequest="1" BackgroundColor="{DynamicResource Error}" Margin="0,10,0,10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" HorizontalOptions="End" Text="Filter" Style="{DynamicResource LabelStyle}" VerticalOptions="Center"/>
+                <CheckBox Grid.Column="1" HorizontalOptions="Start" IsChecked="{Binding IsFilterActive}" VerticalOptions="Center"/>
+                <Label Grid.Column="2" HorizontalOptions="End"  Text="Enable date range" Style="{DynamicResource ItemLabelStyle}"/>
+                <Switch Grid.Column="3" HorizontalOptions="Start"  IsToggled="{Binding EnableDateRange}" />
+            </Grid>
+            <BoxView HeightRequest="1" BackgroundColor="{DynamicResource Error}" Margin="0,10,0,10"/>
+            <HorizontalStackLayout Grid.Column="0" HorizontalOptions="Center" Margin="0,10,0,0" VerticalOptions="Start">
+                <Label Text="Start date" Style="{DynamicResource DatePickerLabelStyle}"/>
+                <DatePicker Date="{Binding StartDate}" Style="{DynamicResource DatePickerStyle}"/>
+                <BoxView WidthRequest="1" Margin="10,0,10,0"/>
+                <Label Text="End date" Style="{DynamicResource DatePickerLabelStyle}"/>
+                <DatePicker Date="{Binding EndDate}" Style="{DynamicResource DatePickerStyle}"/>
+            </HorizontalStackLayout>
+            <Button Text="Get entries" Style="{StaticResource ButtonStyle}" Command="{Binding GetEntriesCommand}"/>
+            <Button Text="Add Entry" Style="{StaticResource ButtonStyle}" Command="{Binding AddEntryCommand}"/>
+        </VerticalStackLayout>
+    </Grid>
+</local:BasePage>

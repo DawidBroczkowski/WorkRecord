@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WorkRecordGui.Pages.Helpers"
+             xmlns:custom="clr-namespace:WorkRecordGui"
+             xmlns:converters="clr-namespace:WorkRecordGui.Pages.Helpers" 
+             xmlns:pages="clr-namespace:WorkRecordGui.Pages"
+             x:Class="WorkRecordGui.Pages.AddVacancyPage"
+             Title="AddVacancyPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="PlaceholderColor" Value="Gray"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+            <Style x:Key="TitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="40"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="SubTitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="Margin" Value="1,10,0,0"/>
+            </Style>
+            <Style x:Key="SmallLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+            </Style>
+            <Style x:Key="BoxViewStyle" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Margin" Value="0,5,0,5"/>
+            </Style>
+            <Style x:Key="TimePickerStyle" TargetType="TimePicker">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource OnPrimary}"/>
+                <Setter Property="Margin" Value="1,5,0,0"/>
+            </Style>
+            <Style x:Key="PickerStyle" TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="{DynamicResource OnPrimary}"/>
+                <Setter Property="Margin" Value="0,5,0,5"/>
+            </Style>
+            <Style x:Key="EmployeeLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+            </Style>
+            <Style x:Key="BoldLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <converters:SelectedEmployeeToColorConverter x:Key="SelectedEmployeeToColorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <custom:CustomTabBar Grid.Row="0" Grid.ColumnSpan="4" />
+        <Frame Grid.Column="1" Grid.Row="1" BackgroundColor="{DynamicResource Background}" CornerRadius="0">
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Label Text="Position:" Style="{DynamicResource LabelStyle}"/>
+                <Picker Grid.Column="1" HorizontalOptions="Fill" 
+                        ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" 
+                        Style="{DynamicResource PickerStyle}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+
+                <Frame>
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Occurrence Day" Style="{DynamicResource LabelStyle}" Grid.Column="0"/>
+                            <Picker Grid.Column="1" HorizontalOptions="Fill" 
+                                    ItemsSource="{Binding DaysOfWeek}" SelectedItem="{Binding SelectedDayOfWeek}" 
+                                    Style="{DynamicResource PickerStyle}"/>
+                        </Grid>
+                        <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Start Hour" Style="{DynamicResource LabelStyle}" Grid.Column="0"/>
+                            <TimePicker Style="{DynamicResource TimePickerStyle}"
+                                        Format="HH:mm" Grid.Column="1" HorizontalOptions="End"
+                                        Time="{Binding StartHour}"/>
+                        </Grid>
+                        <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                        <!-- End Hour -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="End Hour" Style="{DynamicResource LabelStyle}" Grid.Column="0"/>
+                            <TimePicker Style="{DynamicResource TimePickerStyle}" 
+                                        Format="HH:mm" Grid.Column="1" HorizontalOptions="End"
+                                        Time="{Binding EndHour}"/>
+                        </Grid>
+                        <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                    </StackLayout>
+                </Frame>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Picker Grid.Column="1" HorizontalOptions="Fill"
+                        ItemsSource="{Binding WeekPlans}"
+                        SelectedItem="{Binding SelectedWeekPlan}"
+                        ItemDisplayBinding="{Binding DisplayText}"
+                        Style="{DynamicResource PickerStyle}"/>
+                <BoxView Style="{DynamicResource BoxViewStyle}"/>
+                <Grid VerticalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Entry Grid.Row="0" Placeholder="Search for employee" Style="{DynamicResource EntryStyle}" Text="{Binding SearchText}"/>
+                    <Frame Grid.Row="1" VerticalOptions="FillAndExpand">
+                        <CollectionView ItemsSource="{Binding FilteredEmployees}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame VerticalOptions="Start" CornerRadius="0" Padding="10">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.EmployeeSelectedCommand, Source={RelativeSource AncestorType={x:Type pages:AddVacancyPage}}}" CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <Grid ColumnDefinitions="20,*,*">
+                                            <Label Grid.Column="0" Text="{Binding Id}" Style="{DynamicResource SmallLabelStyle}"/>
+                                            <Label Grid.Column="1" Text="{Binding FirstName}" Style="{DynamicResource SmallLabelStyle}"/>
+                                            <Label Grid.Column="2" Text="{Binding LastName}" Style="{DynamicResource SmallLabelStyle}"/>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Frame>
+                    <Button  Grid.Row="2" Text="Add" Command="{Binding AddVacancyTappedCommand}" Style="{DynamicResource ButtonStyle}"/>
+                </Grid>
+            </StackLayout>
+        </Frame>
+        <Frame Grid.Column="2" Grid.Row="1" BackgroundColor="{DynamicResource Background}" CornerRadius="0">
+            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Margin="10,0,10,0" VerticalOptions="FillAndExpand">
+                <HorizontalStackLayout>
+                    <Label Text="{Binding SelectedEmployee.FirstName}" Style="{StaticResource BoldLabelStyle}" FontSize="40"/>
+                    <Label Text="{Binding SelectedEmployee.LastName}" Style="{StaticResource BoldLabelStyle}" FontSize="40"/>
+                    <BoxView HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Id: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.Id}" Style="{StaticResource EmployeeLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Email: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.Email}" Style="{StaticResource EmployeeLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Phone: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.PhoneNumber}" Style="{StaticResource EmployeeLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Position: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.Position}" Style="{StaticResource EmployeeLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="PESEL: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.PESEL}" Style="{StaticResource EmployeeLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Birthday: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.BirthDate}" Style="{StaticResource EmployeeLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Years worked: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.YearsWorked}" Style="{StaticResource EmployeeLabelStyle}"/>
+                </HorizontalStackLayout>
+                <BoxView Grid.Row="1" HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" Margin="0,10,0,10"/>
+                <Frame VerticalOptions="FillAndExpand">
+                    <ScrollView Orientation="Vertical" VerticalOptions="FillAndExpand">
+                    <FlexLayout Direction="Row" 
+                                        Wrap="Wrap" 
+                                        JustifyContent="Start" 
+                                        AlignItems="Start" 
+                                        AlignContent="Start" 
+                                        BindableLayout.ItemsSource="{Binding Vacancies}"
+                                        VerticalOptions="FillAndExpand">
+                        <BindableLayout.ItemTemplate VerticalOptions="FillAndExpand">
+                            <DataTemplate>
+                                <Frame BackgroundColor="Yellow" Padding="10" Margin="5">
+                                    <VerticalStackLayout VerticalOptions="FillAndExpand">
+                                        <Label Text="{Binding OccurrenceDay}" Style="{StaticResource ScrollLabelStyle}"/>
+                                        <HorizontalStackLayout>
+                                            <Label Text="{Binding StartHour, StringFormat='{0:hh\\:mm}'}" Style="{StaticResource ScrollLabelStyle}"/>
+                                            <Label Text="-" Style="{StaticResource ScrollLabelStyle}"/>
+                                            <Label Text="{Binding EndHour, StringFormat='{0:hh\\:mm}'}" Style="{StaticResource ScrollLabelStyle}"/>
+                                        </HorizontalStackLayout>
+                                        <Label Text="{Binding Position}" Style="{StaticResource ScrollLabelStyle}"/>
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                    </ScrollView>
+                </Frame>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</local:BasePage>

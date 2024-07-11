@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:WorkRecordGui"
+             x:Class="WorkRecordGui.Pages.LeavePage"
+             xmlns:local="clr-namespace:WorkRecordGui.Pages.Helpers"
+             Title="LeavePage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="32" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+            </Style>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+            </Style>
+            <Style x:Key="BoldLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <Style x:Key="ScrollLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+            </Style>
+            <Style x:Key="BoldScrollLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <Grid Background="{DynamicResource Background}" x:Name="ParentGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <custom:CustomTabBar Grid.Row="0" Grid.ColumnSpan="3" />
+        <Frame Grid.Column="1" Grid.Row="1">
+            <StackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="{Binding Employee.FirstName}" Style="{StaticResource TitleLabelStyle}"/>
+                    <Label Text="{Binding Employee.LastName}" Style="{StaticResource TitleLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Employee ID:" Style="{StaticResource BoldLabelStyle}" />
+                    <Label Text="{Binding Employee.Id}" Style="{StaticResource LabelStyle}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Leave ID:" Style="{StaticResource BoldLabelStyle}" />
+                    <Label Text="{Binding Leave.Id}" Style="{StaticResource LabelStyle}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Leave Type:" Style="{StaticResource BoldLabelStyle}" />
+                    <Label Text="{Binding Leave.LeaveType}" Style="{StaticResource LabelStyle}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Start Date:" Style="{StaticResource BoldLabelStyle}" />
+                    <Label Text="{Binding Leave.StartDate}" Style="{StaticResource LabelStyle}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="End Date:" Style="{StaticResource BoldLabelStyle}" />
+                    <Label Text="{Binding Leave.EndDate}" Style="{StaticResource LabelStyle}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Position:" Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding Employee.Position}" Style="{StaticResource LabelStyle}" />
+                </HorizontalStackLayout>
+                <Button Text="Delete" Pressed="OnDeleteLeaveTapped" Style="{DynamicResource ButtonStyle}" IsVisible="{Binding Source={x:Reference ParentGrid}, Path=BindingContext.Session.IsUserCoordinator}"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+</local:BasePage>

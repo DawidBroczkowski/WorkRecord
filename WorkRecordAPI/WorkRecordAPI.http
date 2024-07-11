@@ -1,0 +1,6 @@
+@WorkRecordAPI_HostAddress = http://localhost:5095
+
+GET {{WorkRecordAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

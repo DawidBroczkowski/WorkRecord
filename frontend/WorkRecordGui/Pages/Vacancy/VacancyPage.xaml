@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WorkRecordGui.Pages.Helpers"
+             xmlns:custom="clr-namespace:WorkRecordGui"
+             x:Class="WorkRecordGui.Pages.VacancyPage"
+             Title="VacancyPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+            </Style>
+            <Style x:Key="BoldLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <Style x:Key="ScrollLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+            </Style>
+            <Style x:Key="BoldScrollLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <Style x:Key="TitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid x:Name="ParentGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <custom:CustomTabBar Grid.Row="0" Grid.ColumnSpan="3" />
+        <Frame Grid.Column="1" Grid.Row="1" Background="{DynamicResource Secondary}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!-- Left Side -->
+                <Frame Grid.RowSpan="2" BackgroundColor="{DynamicResource OnPrimary}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <VerticalStackLayout Grid.ColumnSpan="2">
+                            <HorizontalStackLayout>
+                                <Label Text="Vacancy ID:" Style="{StaticResource BoldLabelStyle}"/>
+                                <Label Text="{Binding Vacancy.Id}" Style="{StaticResource LabelStyle}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Position:" Style="{StaticResource BoldLabelStyle}"/>
+                                <Label Text="{Binding Vacancy.Position}" Style="{StaticResource LabelStyle}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Occurrence day:" Style="{StaticResource BoldLabelStyle}"/>
+                                <Label Text="{Binding Vacancy.OccurrenceDay}" Style="{StaticResource LabelStyle}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Hours:" Style="{StaticResource BoldLabelStyle}"/>
+                                <Label Text="{Binding Vacancy.StartHour, StringFormat='{0:hh\\:mm}'}" Style="{StaticResource LabelStyle}" />
+                                <Label Text="-" Style="{StaticResource LabelStyle}" />
+                                <Label Text="{Binding Vacancy.EndHour, StringFormat='{0:hh\\:mm}'}" Style="{StaticResource LabelStyle}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Employee ID:" Style="{StaticResource BoldLabelStyle}"/>
+                                <Label Text="{Binding Vacancy.EmployeeId}" Style="{StaticResource LabelStyle}" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Planned employee ID:" Style="{StaticResource BoldLabelStyle}"/>
+                                <Label Text="{Binding Vacancy.PlannedEmployeeId}" Style="{StaticResource LabelStyle}"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout>
+                                <Label Text="Is active:" Style="{StaticResource BoldLabelStyle}"/>
+                                <Label Text="{Binding Vacancy.IsActive}" Style="{StaticResource LabelStyle}"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        <BoxView Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource Error}" HeightRequest="1"/>
+                        <Frame Grid.Row="2" Grid.ColumnSpan="2" CornerRadius="0" BindingContext="{Binding PlannedEmployee}">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference ParentGrid}, Path=BindingContext.EmployeeTappedCommand}" CommandParameter="{Binding Id}" />
+                            </Frame.GestureRecognizers>
+                            <VerticalStackLayout>
+                                <Label Text="Planned employee:" Style="{StaticResource TitleLabelStyle}"/>
+                                <HorizontalStackLayout>
+                                    <Label Text="ID:" Style="{StaticResource BoldLabelStyle}"/>
+                                    <Label Text="{Binding Id}" Style="{StaticResource LabelStyle}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Name:" Style="{StaticResource BoldLabelStyle}"/>
+                                    <Label Text="{Binding FirstName}" Style="{StaticResource LabelStyle}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Last name:" Style="{StaticResource BoldLabelStyle}"/>
+                                    <Label Text="{Binding LastName}" Style="{StaticResource LabelStyle}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Email:" Style="{StaticResource BoldLabelStyle}"/>
+                                    <Label Text="{Binding Email}" Style="{StaticResource LabelStyle}"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Label Text="Phone number:" Style="{StaticResource BoldLabelStyle}"/>
+                                    <Label Text="{Binding PhoneNumber}" Style="{StaticResource LabelStyle}"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </Frame>
+
+                <!-- Right Side -->
+                <Frame Grid.Column="2" Grid.RowSpan="2" BackgroundColor="{DynamicResource Primary}">
+                    <VerticalStackLayout>
+                        <Button Text="Change active status" Style="{StaticResource ButtonStyle}" Command="{Binding ChangeActiveStatusTappedCommand}"/>
+                        <Button Text="Delete" Style="{StaticResource ButtonStyle}" Pressed="OnDeleteVacancyTapped"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+        </Frame>
+    </Grid>
+</local:BasePage>

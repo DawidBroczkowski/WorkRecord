@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WorkRecordGui.Pages.Helpers"
+             xmlns:custom="clr-namespace:WorkRecordGui"
+             x:Class="WorkRecordGui.Pages.AddLeavePage"
+             Title="AddLeavePage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="PlaceholderColor" Value="Gray"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
+            <Style x:Key="TitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="40"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="SubTitleLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+            </Style>
+            <Style x:Key="SecondLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,10,10,0" />
+            </Style>
+            <Style x:Key="SmallLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+            </Style>
+            <Style x:Key="BoxViewStyle" TargetType="BoxView">
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="Margin" Value="0,5,0,5"/>
+            </Style>
+            <Style x:Key="TimePickerStyle" TargetType="DatePicker">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource OnPrimary}"/>
+                <Setter Property="Margin" Value="1,5,0,0"/>
+                <Setter Property="Format" Value="dd/MM/yyyy"/>
+            </Style>
+            <Style x:Key="PickerStyle" TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="{DynamicResource OnPrimary}"/>
+                <Setter Property="Margin" Value="0,5,0,5"/>
+            </Style>
+            <Style x:Key="BoldLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="0,3,5,3" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <Style x:Key="ScrollLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+            </Style>
+            <Style x:Key="BoldScrollLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Margin" Value="0,0,4,0" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid x:Name="ParentGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <custom:CustomTabBar Grid.Row="0" Grid.ColumnSpan="4" />
+        <Frame Grid.Column="1" Grid.Row="1" Background="{DynamicResource Background}"  CornerRadius="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0">
+                    <Entry Placeholder="Search for employee" Style="{DynamicResource EntryStyle}" Text="{Binding SearchText}"/>
+                    <Frame VerticalOptions="FillAndExpand">
+                        <!-- Employee Rows -->
+                        <ListView Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding FilteredEmployees}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference ParentGrid}, Path=BindingContext.EmployeeTappedCommand}" CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                                            </Grid.GestureRecognizers>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="40" />
+                                                <RowDefinition Height="1" />
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding Id}" Style="{StaticResource ItemLabelStyle}" Grid.Column="0"/>
+                                                <Label Text="{Binding FirstName}" Style="{StaticResource ItemLabelStyle}" Grid.Column="1"/>
+                                                <Label Text="{Binding LastName}" Style="{StaticResource ItemLabelStyle}" Grid.Column="2"/>
+                                            </Grid>
+                                            <BoxView Grid.Row="1" HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Frame>
+                </StackLayout>
+                <StackLayout Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <HorizontalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                            <Label Text="Start date" Style="{DynamicResource SecondLabelStyle}"/>
+                            <DatePicker Date="{Binding StartDate}" Style="{DynamicResource TimePickerStyle}"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                            <Label Text="End date" Style="{DynamicResource SecondLabelStyle}"/>
+                            <DatePicker Date="{Binding EndDate}" Style="{DynamicResource TimePickerStyle}"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" />
+                    <Grid Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Start time" Style="{DynamicResource SecondLabelStyle}"/>
+                        <TimePicker Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Time="{Binding StartTime}" Style="{DynamicResource TimePickerStyle}" Format="HH:mm" HorizontalOptions="End"/>
+                        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="End time" Style="{DynamicResource SecondLabelStyle}"/>
+                        <TimePicker Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Time="{Binding EndTime}" Style="{DynamicResource TimePickerStyle}" Format="HH:mm" HorizontalOptions="End"/>
+                    </Grid>
+                    <BoxView HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" />
+                    <Label Text="Leave type" Style="{DynamicResource LabelStyle}"/>
+                    <Picker ItemsSource="{Binding LeaveTypes}" SelectedItem="{Binding SelectedLeaveType}" Style="{DynamicResource PickerStyle}"/>
+                    <Button Text="Add leave" Command="{Binding AddLeaveTappedCommand}" Style="{DynamicResource ButtonStyle}"/>
+                </StackLayout>
+            </Grid>
+        </Frame>
+        <Frame Grid.Column="2" Grid.Row="1" Background="{DynamicResource Background}" CornerRadius="0">
+            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Margin="10,0,10,0">
+                <HorizontalStackLayout>
+                    <Label Text="{Binding SelectedEmployee.FirstName}" Style="{StaticResource BoldLabelStyle}" FontSize="40"/>
+                    <Label Text="{Binding SelectedEmployee.LastName}" Style="{StaticResource BoldLabelStyle}" FontSize="40"/>
+                    <BoxView HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Id: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.Id}" Style="{StaticResource LabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Email: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.Email}" Style="{StaticResource LabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Phone: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.PhoneNumber}" Style="{StaticResource LabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Position: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.Position}" Style="{StaticResource LabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="PESEL: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.PESEL}" Style="{StaticResource LabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Birthday: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.BirthDate}" Style="{StaticResource LabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Years worked: " Style="{StaticResource BoldLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.YearsWorked}" Style="{StaticResource LabelStyle}"/>
+                </HorizontalStackLayout>
+                <Label Text="Birth dates of children:" Style="{StaticResource BoldLabelStyle}"></Label>
+                <Frame>
+                    <ScrollView>
+                        <StackLayout BindableLayout.ItemsSource="{Binding SelectedEmployee.ChildrenBirthdays}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding ., StringFormat='{0:dd/MM/yyyy}'}" Style="{StaticResource ScrollLabelStyle}" />
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </ScrollView>
+                </Frame>
+                <BoxView Grid.Row="1" HeightRequest="1" BackgroundColor="{DynamicResource Error}" HorizontalOptions="FillAndExpand" Margin="0,10,0,0"/>
+                <Label Grid.Row="1" Text="Remaining leaves:" Style="{StaticResource BoldLabelStyle}" FontSize="28"/>
+                <HorizontalStackLayout>
+                    <Label Text="Paid leave days:" Style="{StaticResource BoldScrollLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.PaidLeaveDays}" Style="{StaticResource ScrollLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Previous year paid leave days: " Style="{StaticResource BoldScrollLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.PreviousYearPaidLeaveDays}" Style="{StaticResource ScrollLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="On demand leave days: " Style="{StaticResource BoldScrollLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.OnDemandLeaveDays}" Style="{StaticResource ScrollLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Childcare Hours: " Style="{StaticResource BoldScrollLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.ChildcareHours}" Style="{StaticResource ScrollLabelStyle}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Higher power Hours: " Style="{StaticResource BoldScrollLabelStyle}"/>
+                    <Label Text="{Binding SelectedEmployee.HigherPowerHours}" Style="{StaticResource ScrollLabelStyle}"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</local:BasePage>
